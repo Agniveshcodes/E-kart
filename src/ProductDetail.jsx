@@ -35,10 +35,6 @@ function ProductDetail({ onAddToCart }) {
     return <NotFound />;
   }
 
-  function handleCartCount(e) {
-    setCartValue(+e.target.value);
-  }
-
   function handleCart() {
     onAddToCart(id, cartValue);
   }
@@ -60,7 +56,7 @@ function ProductDetail({ onAddToCart }) {
           />
         </div>
 
-        <div className="flex flex-col items-start space-y-3 w-1/2 h-full lg:p-4">
+        <div className="flex flex-col items-start space-y-2 w-1/2 h-full lg:p-4">
           <h2 className="text-sm sm:text-4xl  text-gray-600 mt-4 mb-2">
             {product.title}
           </h2>
@@ -70,16 +66,33 @@ function ProductDetail({ onAddToCart }) {
           <p className="text-sm text-gray-600 font-semibold sm:text-base ">
             {product.description}
           </p>
+
+          <p className="text-sm text-gray-600 font-semibold sm:text-base">
+            <span className="text-orange-600"> Brand: </span>{product.brand} 
+          </p>
+
+          <p className="text-sm text-gray-600 font-semibold sm:text-base ">
+            <span className="text-orange-600">DIscount: </span>
+            {product.discountPercentage}%
+          </p>
+
+          <p className="text-sm text-gray-600 font-semibold sm:text-base ">
+            <span className="text-orange-600">Category: </span>
+            {product.category}
+          </p>
+
           <div className="flex gap-4 ">
             <div className="flex gap-2">
-             { cartValue >= 1 && <button
-                onClick={() => {
-                  setCartValue(cartValue - 1);
-                }}
-                className="font-bold text-orange-700 border-2 border-black rounded-md px-1 hover:shadow-md hover:bg-orange-300 text-sm  sm:px-2 lg:px-1  h-10  sm:text-sm"
-              >
-                <FaMinus />
-              </button>}
+              {cartValue >= 1 && (
+                <button
+                  onClick={() => {
+                    setCartValue(cartValue - 1);
+                  }}
+                  className="font-bold text-orange-700 border-2 border-black rounded-md px-1 hover:shadow-md hover:bg-orange-300 text-sm  sm:px-2 lg:px-1  h-10  sm:text-sm"
+                >
+                  <FaMinus />
+                </button>
+              )}
               <span className="text-center text-lg font-bold text-orange-700 border-2 border-black rounded-md px-2 h-10 sm:text-xl sm:py-0.5">
                 {cartValue}
               </span>
@@ -100,6 +113,7 @@ function ProductDetail({ onAddToCart }) {
               ADD TO CART
             </button>
           </div>
+
           <div className="flex gap-5 mt-8">
             {id > 1 && (
               <Link
