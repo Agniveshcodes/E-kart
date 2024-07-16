@@ -5,6 +5,7 @@ import ProductDetail from "./ProductDetail";
 import ProductList from "./ProductList";
 import { Routes, Route } from "react-router-dom";
 import NotFound from "./NotFound";
+import CartPage from "./CartPage";
 
 function App() {
   let newCart = JSON.parse(localStorage.getItem("productCart") || "{}" );
@@ -32,6 +33,7 @@ function App() {
             path="/productDetail/:id"
             element={<ProductDetail onAddToCart={handleAddToCart} />}
           ></Route>
+          <Route path="/cartpage" element={<CartPage />} ></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
 
