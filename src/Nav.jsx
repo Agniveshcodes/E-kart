@@ -14,9 +14,11 @@ function Nav({ count }) {
         </Link>
 
         <div className=" flex ">
-          <span className="cursor-pointer">
-            <HiOutlineShoppingCart className=" text-sm sm:text-2xl text-orange-700 " />
-          </span>
+          <Link to={"/cartpage"}>
+            <span className="cursor-pointer">
+              <HiOutlineShoppingCart className=" text-sm sm:text-2xl text-orange-700 " />
+            </span>
+          </Link>
           <span className="text-2xl font-semibold text-orange-500">
             {count}
           </span>
