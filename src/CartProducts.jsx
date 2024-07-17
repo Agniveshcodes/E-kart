@@ -1,27 +1,31 @@
 import React from "react";
 
-
-function CartProduct() {
+function CartProduct({ product }) {
   return (
     <>
-      <div className=" w-full flex justify- border-2 border-gray-100 px-8 py-2 mt-2 text-center rounded-md ">
-        <div className="flex justify-around w-1/2 items-center">
+      <div className=" w-100 lg:w-full flex justify- border-2 border-gray-100 px-8 py-2 mt-2 text-center rounded-md ">
+        <div className="flex justify-around w-1/2 items-center gap-4 mr-2 lg:mr-0">
           <p> X </p>
           <img
-            className="h-10 w-10 shadow-md shadow-gray-600"
-            src="https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg"
+            className="h-5 w-5 lg:h-10 lg:w-10 shadow-md shadow-gray-600"
+            src={product.image}
             alt="productImage"
           />
-          <h1 className="text-base text-orange-500 font-semibold">
-            
-            Tshirt for men
-          </h1>
+          <div className=" flex flex-wrap">
+            <h1 className="text-sm lg:text-base text-orange-500 font-semibold">
+              {product.title}
+            </h1>
+          </div>
         </div>
 
-        <div className="flex justify-evenly w-1/2 gap-8 items-center text-base font-semibold">
-          <p>$15</p>
-          <p>2</p>
-          <p>30$</p>
+        <div className="flex justify-evenly w-1/2 gap-5 lg:gap-4 items-center text-sm lg:text-base font-semibold">
+          <span> ${product.price} </span>
+          <input
+            type="number"
+            className="border-2 border-gray-300 rounded-md w-8  lg:w-10 pl-2 text-sm lg:text-base"
+            value={2}
+          />
+          <span className=" text-sm lg:text-base font-semibold"> ${product.price * 2} </span>
         </div>
       </div>
     </>
