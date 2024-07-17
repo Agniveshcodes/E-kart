@@ -9,6 +9,9 @@ export default {
       height: {
         100: "440px",
         200: "840px"
+      },
+      width: {
+        200: "800px"
       }
     },
   },
