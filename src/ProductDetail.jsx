@@ -37,6 +37,7 @@ function ProductDetail({ onAddToCart }) {
 
   function handleCart() {
     onAddToCart(id, cartValue);
+    setCartValue(1)
   }
 
   return (
@@ -121,6 +122,7 @@ function ProductDetail({ onAddToCart }) {
                 className=" flex gap-2 items-center "
                 onClick={() => {
                   setCartValue(1);
+                  setPageLoading(true)
                 }}
               >
                 <IoMdArrowRoundBack className="text-sm sm:text-xl font-semibold" />
@@ -134,6 +136,7 @@ function ProductDetail({ onAddToCart }) {
               className="flex gap-2 items-center"
               onClick={() => {
                 setCartValue(1);
+                setPageLoading(true)
               }}
             >
               <span className="text-sm sm:text-xl font-semibold"> next </span>

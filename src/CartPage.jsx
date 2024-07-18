@@ -21,18 +21,25 @@ function CartPage() {
           </div>
 
           {data.map((items) => {
-            return <CartProduct product={items} />;
+            return <CartProduct product={items} key={items.id} />;
           })}
         </div>
-        <div className="flex mt-8 mx-2 gap-2 lg:mx-72">
-          <input
-            type="text"
-            placeholder="Coupon Cdde"
-            className="px-1 text-sm  lg:px-2 border-2 border-gray-300 rouded-md lg:text-base "
-          />
-          <button className="px-2 text-sm lg:px-8 py-0.5 bg-red-600 rounded-md text-white lg:text-base font-smibold">
-            Aplly Coupon
-          </button>
+        <div className=" mx-24 flex justify-between mt-8 lg:mx-68 ">
+          <div className="flex gap-2 ">
+            <input
+              type="text"
+              placeholder="Coupon Cdde"
+              className="px-1 text-sm  lg:px-2 border-2 border-gray-300 rouded-md lg:text-base "
+            />
+            <button className="px-2 text-sm lg:px-8 py-0.5 bg-red-600 rounded-md text-white lg:text-base font-smibold">
+              Aplly Coupon
+            </button>
+          </div>
+          <div>
+            <button className="px-2 text-sm lg:px-8 py-0.5 bg-red-600 rounded-md text-white lg:text-base font-smibold">
+              Update cart
+            </button>
+          </div>
         </div>
       </div>
     </>

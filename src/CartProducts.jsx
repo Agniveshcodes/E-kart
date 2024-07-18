@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiCircleRemove } from "react-icons/ci";
 
 function CartProduct({ product }) {
+
+  const [quantity,setQuantity] = useState(1)
+
+  function handleChange(e) {
+     setQuantity(e.target.value)
+  }
+
   return (
     <>
       <div className=" w-100 lg:w-full flex justify- border-2 border-gray-100 px-8 py-2 mt-2 text-center rounded-md ">
@@ -26,9 +33,10 @@ function CartProduct({ product }) {
           <input
             type="number"
             className="border-2 border-gray-300 rounded-md w-8  lg:w-10 pl-2 text-sm lg:text-base"
-            value={3}
+            value={quantity}
+            onChange={handleChange}
           />
-          <span className=" text-sm lg:text-base font-semibold"> ${product.price * 3} </span>
+          <span className=" text-sm lg:text-base font-semibold"> ${product.price * quantity} </span>
         </div>
       </div>
     </>
