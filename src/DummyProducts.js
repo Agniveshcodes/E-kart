@@ -18,7 +18,6 @@ const products = [
     category: "T-shirt",
       rating: 4.1,
   },
-  
 ];
 
 export default products;
