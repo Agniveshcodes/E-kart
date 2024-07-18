@@ -13,6 +13,9 @@ export default {
       },
       width: {
         200: "800px"
+      },
+      margin: {
+        68: "272px"
       }
     },
   },
