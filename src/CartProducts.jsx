@@ -1,11 +1,14 @@
 import React from "react";
+import { CiCircleRemove } from "react-icons/ci";
 
 function CartProduct({ product }) {
   return (
     <>
       <div className=" w-100 lg:w-full flex justify- border-2 border-gray-100 px-8 py-2 mt-2 text-center rounded-md ">
         <div className="flex justify-around w-1/2 items-center gap-4 mr-2 lg:mr-0">
-          <p> X </p>
+          <span>
+          <CiCircleRemove className="text-sm lg:text-xl text-orange-700 cursor-pointer " />
+          </span>
           <img
             className="h-5 w-5 lg:h-10 lg:w-10 shadow-md shadow-gray-600"
             src={product.image}
@@ -23,9 +26,9 @@ function CartProduct({ product }) {
           <input
             type="number"
             className="border-2 border-gray-300 rounded-md w-8  lg:w-10 pl-2 text-sm lg:text-base"
-            value={2}
+            value={3}
           />
-          <span className=" text-sm lg:text-base font-semibold"> ${product.price * 2} </span>
+          <span className=" text-sm lg:text-base font-semibold"> ${product.price * 3} </span>
         </div>
       </div>
     </>
