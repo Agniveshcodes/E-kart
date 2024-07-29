@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 function Nav({ count }) {
@@ -28,4 +28,4 @@ function Nav({ count }) {
   );
 }
 
-export default Nav;
+export default memo(Nav);
