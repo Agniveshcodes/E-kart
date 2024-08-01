@@ -16,6 +16,12 @@ export default {
       },
       margin: {
         68: "272px"
+      },
+      backgroundColor: {
+        "bg-blue-1000" : "rgb(33,72,192)"
+      },
+      fontSize: {
+        "text-10xl" : "120px"
       }
     },
   },
