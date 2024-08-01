@@ -3,11 +3,16 @@ import Product from "./Product";
 import { GetAllProduct } from "./ProductApi";
 import Loading from "./Loading";
 import NotFound from "./NotFound";
+import { Link, Navigate } from "react-router-dom";
 
-function ProductList() {
+function ProductList({ user }) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
   const [products, setProducts] = useState();
+
+  if (!user) {
+    return <Navigate to={"/login"} />;
+  }
 
   useEffect(() => {
     GetAllProduct().then((res) => {
@@ -85,13 +90,13 @@ function ProductList() {
         <div className="self-start mx-10 mt-4 flex gap-2 lg:mx-28 cursor-pointer  lg:mt-4">
           <span className="text-lg text-orange-700 border-2 border-orange-500 px-2  rounded-md">
             1
-         </span>
+          </span>
           <span className="text-lg text-orange-700 border-2 border-orange-500 px-2  rounded-md">
             2
-         </span>
+          </span>
           <span className="text-lg text-orange-700 border-2 border-orange-500 px-2  rounded-md">
             3
-         </span>
+          </span>
         </div>
       </div>
     </>

@@ -3,12 +3,17 @@ import CartProduct from "./CartProducts";
 import { GetSingleProduct } from "./ProductApi";
 import Loading from "./Loading";
 import ZeroProduct from "./ZeroProduct";
+import { Navigate } from "react-router-dom";
 
-function CartPage({ cart, updateCart }) {
+function CartPage({ cart, updateCart , user}) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [localCart, setLocalCart] = useState(cart);
   const productsIds = Object.keys(cart);
+
+  if (!user) {
+    return <Navigate to={"/login"} />;
+  }
 
   useEffect(() => {
     setLocalCart(cart);
