@@ -5,14 +5,10 @@ import Loading from "./Loading";
 import NotFound from "./NotFound";
 import { Link, Navigate } from "react-router-dom";
 
-function ProductList({ user }) {
+function ProductList() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
   const [products, setProducts] = useState();
-
-  if (!user) {
-    return <Navigate to={"/login"} />;
-  }
 
   useEffect(() => {
     GetAllProduct().then((res) => {

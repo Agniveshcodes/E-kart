@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import axios from "axios";
+import { withUser , withAlert } from "./withProvider";
 
 function callLoginApi(values , bag ) {
   axios
@@ -16,10 +17,16 @@ function callLoginApi(values , bag ) {
       const { user, token } = response.data
       bag.props.setUser(user)
       localStorage.setItem("token" , token)
-     
+      bag.props.setAlert({
+        type: "success",
+        message: "you have logged in successfully"
+      })
     })
-    .catch(() => {
-      console.log("Invalid Cerendetial");
+    .catch((error) => {
+      bag.props.setAlert({
+        type: "error",
+        message: "Invalid cerendetial"
+      })     
     });
 }
 
@@ -45,13 +52,10 @@ function Login({
   errors,
   handleBlur,
   handleChange,
-  user
+
 }) {
 
-
-  if (user) {
-   return <Navigate to={"/"} />
-  }
+ 
 
   return (
     <>
@@ -89,6 +93,7 @@ function Login({
             placeholder={"password"}
             type={"password"}
             className={" rounded-md "}
+            autoComplete={"current password"}
           />
 
           <button
@@ -125,4 +130,4 @@ const withFormikHOC = withFormik({
 
 const FormikLogin = withFormikHOC(Login);
 
-export default FormikLogin;
+export default withUser(withAlert(FormikLogin));

@@ -53,7 +53,7 @@ function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
           />
           <span className=" text-sm lg:text-base font-semibold">
             {" "}
-            ${product.price * product.id}{" "}
+            ${product.price * localCart[product.id]}{" "}
           </span>
         </div>
       </div>
