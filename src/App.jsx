@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import ProductDetail from "./ProductDetail";
@@ -11,14 +11,22 @@ import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
 import Loading from "./Loading";
 import axios from "axios";
+import UserRoute from "./UserRoute";
+import AuthRoute from "./AuthRoute";
+import Alert from "./Alert";
+import { loginContext , alertContext } from "./Context";
+
 
 function App() {
   const [user, setUser] = useState();
   const [loadingUser, setLoadingUser] = useState(true);
+  const [alert, setAlert] = useState()
   let newCart = JSON.parse(localStorage.getItem("productCart") || "{}");
   const [cart, setCart] = useState(newCart);
 
-  console.log(user);
+  const removeAlert = () => {
+    setAlert(undefined)
+}
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -32,7 +40,6 @@ function App() {
         .then((respnse) => {
           setUser(respnse.data);
           setLoadingUser(false);
-          console.log(respnse.data);
         });
     } else {
       setLoadingUser(false);
@@ -42,9 +49,6 @@ function App() {
   if (loadingUser) {
     return <Loading />;
   }
-
-  
-  
 
   function handleAddToCart(productId, cartCount) {
     const oldCount = cart[productId] || 0;
@@ -65,31 +69,63 @@ function App() {
   return (
     <>
       <div className=" min-h-screen min-w-screen bg-gray-50 ">
-        <Nav count={totalCount} setUser={setUser} />
+        <loginContext.Provider value={{ user, setUser }}>
+          <alertContext.Provider value={{ alert, setAlert ,  removeAlert }}>
+            <Alert/>
+            <Nav count={totalCount} />
 
-        <Routes>
-          <Route
-            path="/login"
-            element={<Login setUser={setUser} user={user} />}
-          ></Route>
-          <Route index element={<ProductList user={user} />}></Route>
-          <Route
-            path="/productDetail/:id"
-            element={<ProductDetail onAddToCart={handleAddToCart} />}
-          ></Route>
-          <Route
-            path="/cartpage"
-            element={<CartPage user={user} cart={cart} updateCart={updateCart}  />}
-          ></Route>
-          <Route path="*" element={<NotFound />}></Route>
-          <Route
-            path="/signUp"
-            element={<SignUp user={user} setUser={setUser} />}
-          ></Route>
-          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-        </Routes>
+            <Routes>
+              <Route
+                path="/login"
+                element={
+                  <AuthRoute user={user}>
+                    {" "}
+                    <Login />{" "}
+                  </AuthRoute>
+                }
+              ></Route>
+              <Route
+                index
+                element={
+                  <UserRoute user={user}>
+                    <ProductList />
+                  </UserRoute>
+                }
+              ></Route>
+              <Route
+                path="/productDetail/:id"
+                element={
+                  <UserRoute user={user}>
+                    <ProductDetail onAddToCart={handleAddToCart} />
+                  </UserRoute>
+                }
+              ></Route>
+              <Route
+                path="/cartpage"
+                element={
+                  <UserRoute user={user}>
+                    <CartPage cart={cart} updateCart={updateCart} />
+                  </UserRoute>
+                }
+              ></Route>
+              <Route path="*" element={<NotFound />}></Route>
+              <Route
+                path="/signUp"
+                element={
+                  <AuthRoute>
+                    <SignUp />
+                  </AuthRoute>
+                }
+              ></Route>
+              <Route
+                path="/forgotPassword"
+                element={<ForgotPassword />}
+              ></Route>
+            </Routes>
 
-        <Footer />
+            <Footer />
+          </alertContext.Provider>
+        </loginContext.Provider>
       </div>
     </>
   );

@@ -1,10 +1,11 @@
 import React from "react";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
-import { Formik, Form, withFormik } from "formik";
+import { withFormik } from "formik";
 import * as Yup from "yup";
 import { Link, Navigate } from "react-router-dom";
 import Input from "./Input";
 import axios from "axios";
+import { withUser , withAlert } from "./withProvider";
 
 function callLoginApi(values , bag) {
   axios
@@ -16,10 +17,17 @@ function callLoginApi(values , bag) {
     .then((response) => {
       const { user, token } = response.data;
       bag.props.setUser(user)
-      localStorage.setItem("token" , token)
+      localStorage.setItem("token", token)
+      bag.props.setAlert({
+        type: "success",
+        message: "you have logged in successfully"
+      })
     })
     .catch(() => {
-      console.log("Invalid Cerendtial");
+      bag.props.setAlert({
+        type: "error",
+        message: "Invalid cerendetial"
+      })  
     });
 }
 
@@ -45,12 +53,8 @@ function SignUp({
   errors,
   handleBlur,
   handleChange,
-  user
 }) {
 
-  if (user) {
-    return <Navigate to={"/"} />
-   }
 
   return (
     <>
@@ -102,6 +106,7 @@ function SignUp({
             placeholder={"password"}
             type={"password"}
             className={" rounded-md "}
+            autoComplete={"current password"}
           />
 
           <button
@@ -134,4 +139,4 @@ const withFormikHOC = withFormik({
 
 const FormikSignUp = withFormikHOC(SignUp);
 
-export default FormikSignUp;
+export default withUser(withAlert(FormikSignUp));

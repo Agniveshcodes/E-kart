@@ -5,15 +5,11 @@ import Loading from "./Loading";
 import ZeroProduct from "./ZeroProduct";
 import { Navigate } from "react-router-dom";
 
-function CartPage({ cart, updateCart , user}) {
+function CartPage({ cart, updateCart }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [localCart, setLocalCart] = useState(cart);
   const productsIds = Object.keys(cart);
-
-  if (!user) {
-    return <Navigate to={"/login"} />;
-  }
 
   useEffect(() => {
     setLocalCart(cart);
@@ -67,8 +63,8 @@ function CartPage({ cart, updateCart , user}) {
             );
           })}
         </div>
-        <div className=" mx-24 flex justify-between mt-8 lg:mx-68 ">
-          <div className="flex gap-2 ">
+        <div className=" flex justify-between mt-8 lg:mx-68 ">
+          <div className="flex gap-2 flex-col mx-2 lg:flex-row">
             <input
               type="text"
               placeholder="Coupon Cdde"
