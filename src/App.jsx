@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import ProductDetail from "./ProductDetail";
@@ -9,46 +9,15 @@ import CartPage from "./CartPage";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
-import Loading from "./Loading";
-import axios from "axios";
 import UserRoute from "./UserRoute";
 import AuthRoute from "./AuthRoute";
 import Alert from "./Alert";
-import { loginContext , alertContext } from "./Context";
-
+import UserProvider from "./UserProvider";
+import AlertProvider from "./AlertProvider";
 
 function App() {
-  const [user, setUser] = useState();
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [alert, setAlert] = useState()
   let newCart = JSON.parse(localStorage.getItem("productCart") || "{}");
   const [cart, setCart] = useState(newCart);
-
-  const removeAlert = () => {
-    setAlert(undefined)
-}
-
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    if (token) {
-      axios
-        .get("https://myeasykart.codeyogi.io/me", {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((respnse) => {
-          setUser(respnse.data);
-          setLoadingUser(false);
-        });
-    } else {
-      setLoadingUser(false);
-    }
-  }, []);
-
-  if (loadingUser) {
-    return <Loading />;
-  }
 
   function handleAddToCart(productId, cartCount) {
     const oldCount = cart[productId] || 0;
@@ -69,16 +38,16 @@ function App() {
   return (
     <>
       <div className=" min-h-screen min-w-screen bg-gray-50 ">
-        <loginContext.Provider value={{ user, setUser }}>
-          <alertContext.Provider value={{ alert, setAlert ,  removeAlert }}>
-            <Alert/>
+        <UserProvider>
+          <AlertProvider>
+            <Alert />
             <Nav count={totalCount} />
 
             <Routes>
               <Route
                 path="/login"
                 element={
-                  <AuthRoute user={user}>
+                  <AuthRoute>
                     {" "}
                     <Login />{" "}
                   </AuthRoute>
@@ -87,7 +56,7 @@ function App() {
               <Route
                 index
                 element={
-                  <UserRoute user={user}>
+                  <UserRoute>
                     <ProductList />
                   </UserRoute>
                 }
@@ -95,7 +64,7 @@ function App() {
               <Route
                 path="/productDetail/:id"
                 element={
-                  <UserRoute user={user}>
+                  <UserRoute>
                     <ProductDetail onAddToCart={handleAddToCart} />
                   </UserRoute>
                 }
@@ -103,7 +72,7 @@ function App() {
               <Route
                 path="/cartpage"
                 element={
-                  <UserRoute user={user}>
+                  <UserRoute>
                     <CartPage cart={cart} updateCart={updateCart} />
                   </UserRoute>
                 }
@@ -124,8 +93,8 @@ function App() {
             </Routes>
 
             <Footer />
-          </alertContext.Provider>
-        </loginContext.Provider>
+          </AlertProvider>
+        </UserProvider>
       </div>
     </>
   );
