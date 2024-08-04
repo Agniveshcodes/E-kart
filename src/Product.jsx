@@ -6,7 +6,7 @@ function Product({ products }) {
     <>
       <div className=" flex flex-col space-y-4  rounded-md border-gray-50 w-40  md:w-60 px-2 pb-2 cursor-pointer hover:shadow-xl hover:shadow-gary-300 bg-orange-50">
         <img
-          className="w-40 rounded-sm h-40 sm:w-fit object-center lg:pl-6 "
+          className="w-40 rounded-sm h-40 sm:w-fit object-cover object-center lg:pl-6 "
           src={products.thumbnail}
           alt="Product Image"
         />
