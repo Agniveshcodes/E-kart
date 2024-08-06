@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function GetAllProduct({ sortBy, query, page ,sortType }) {
+export function GetAllProduct({ sortBy, query, page, sortType }) {
   let params = {};
 
   if (sortBy) {
@@ -28,7 +28,54 @@ export function GetAllProduct({ sortBy, query, page ,sortType }) {
 }
 
 export function GetSingleProduct(id) {
-  return axios.get(`https://dummyjson.com/products/${id}`).then((res) => {
-    return res.data;
-  });
+  return axios
+    .get(`https://myeasykart.codeyogi.io/product/${id}`)
+    .then((res) => {
+      return res.data;
+    });
+}
+
+export function GetCartProducts(ids) {
+  let commaSeperatedIds = ids.join();
+
+  return axios
+    .get(`https://myeasykart.codeyogi.io/products/bulk/`, {
+      params: {
+        ids: commaSeperatedIds,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    });
+}
+
+let token = localStorage.getItem("token");
+
+
+export function SaveDataToCart(cart) {
+  return axios
+    .post(
+      "https://myeasykart.codeyogi.io/carts",
+      { data: cart },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    });
+}
+
+export function GetSavedCart() {
+  return axios
+    .get("https://myeasykart.codeyogi.io/carts", {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
 }

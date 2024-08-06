@@ -7,8 +7,9 @@ import Loading from "./Loading";
 import NotFound from "./NotFound";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
+import { withCart } from "./withProvider";
 
-function ProductDetail({ onAddToCart }) {
+function ProductDetail({ handleAddToCart }) {
   const [cartValue, setCartValue] = useState(1);
   const [product, setProduct] = useState();
   const [PageLoading, setPageLoading] = useState(true);
@@ -36,7 +37,7 @@ function ProductDetail({ onAddToCart }) {
   }
 
   function handleCart() {
-    onAddToCart(id, cartValue);
+    handleAddToCart(id, cartValue);
     setCartValue(1)
   }
 
@@ -51,8 +52,8 @@ function ProductDetail({ onAddToCart }) {
       <div className="px-2 w-fit h-200 flex border-2 sm:p-4 gap-4 shadow-lg rounded-md sm:mx-auto sm:h-200 bg-white md:h-100 md:mx-auto lg:mx-auto ">
         <div className=" mr-2 w-1/2 px-6 py-2 ">
           <img
-            className="w-60 h-80 sm:w-80 sm:h-96  "
-            src={product.thumbnail}
+            className="w-60 h-80 sm:w-80 sm:h-96 object-cover "
+            src="https://images.unsplash.com/photo-1695322353008-fb6647b1cf4a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Product Image"
           />
         </div>
@@ -149,4 +150,4 @@ function ProductDetail({ onAddToCart }) {
   );
 }
 
-export default ProductDetail;
+export default withCart( ProductDetail);

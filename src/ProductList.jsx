@@ -19,8 +19,6 @@ function ProductList() {
   sort = sort || "default";
   query = query || "";
 
-  console.log(params)
-
   useEffect(() => {
     let sortBy;
     let sortType;
@@ -39,7 +37,7 @@ function ProductList() {
     });
   }, [sort, query, page]);
 
-  function handleChange() {
+  function handleChange(event) {
     setSearchParams(
       { ...params, query: event.target.value },
       { replace: false }

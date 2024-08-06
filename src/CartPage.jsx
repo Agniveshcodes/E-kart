@@ -1,38 +1,31 @@
 import React, { useEffect, useState } from "react";
 import CartProduct from "./CartProducts";
-import { GetSingleProduct } from "./ProductApi";
-import Loading from "./Loading";
 import ZeroProduct from "./ZeroProduct";
-import { Navigate } from "react-router-dom";
+import { withCart } from "./withProvider";
+import Loading from "./Loading";
 
 function CartPage({ cart, updateCart }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [localCart, setLocalCart] = useState(cart);
-  const productsIds = Object.keys(cart);
+
+  const [quantityMap, setQuantityMap] = useState({});
+
+  const map = () =>  cart.reduce((previous, current) => {
+     return {...previous , [current.product.id] : current.quantity }
+   },{})
 
   useEffect(() => {
-    setLocalCart(cart);
+    setQuantityMap(map);
   }, [cart]);
 
-  useEffect(() => {
-    const myProductsPromises = productsIds.map((id) => GetSingleProduct(id));
-    Promise.all(myProductsPromises).then((response) => {
-      setProducts(response);
-      setLoading(false);
-    });
-  }, [cart]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (products.length === 0) {
+  if (cart.length === 0) {
     return <ZeroProduct />;
   }
 
   function updateMyCart() {
-    updateCart(localCart)
+    updateCart(quantityMap)
+  }
+
+  if (!cart.length) {
+    return <Loading />
   }
 
   return (
@@ -50,21 +43,22 @@ function CartPage({ cart, updateCart }) {
             </div>
           </div>
 
-          {products.map((items) => {
+          {cart.map((items) => {
             return (
               <CartProduct
-                product={items}
-                key={items.id}
-                cart={cart}
+                product={items.product}
+                key={items.product.id}
                 cartUpdate={updateCart}
-                localCart={localCart}
-                setLocalCart={setLocalCart}
+                localCart={quantityMap}
+                setLocalCart={setQuantityMap}
+                quantity={quantityMap[items.product.id] || items.quantity }
+                map={map}
               />
             );
           })}
         </div>
         <div className=" flex justify-between mt-8 lg:mx-68 ">
-          <div className="flex gap-2 flex-col mx-2 lg:flex-row">
+          <div className="flex gap-2 flex-col mx-4 lg:flex-row">
             <input
               type="text"
               placeholder="Coupon Cdde"
@@ -74,7 +68,7 @@ function CartPage({ cart, updateCart }) {
               Aplly Coupon
             </button>
           </div>
-          <div>
+          <div className="mx-4">
             <button onClick={updateMyCart} className="px-2 text-sm lg:px-8 py-0.5 bg-red-600 rounded-md text-white lg:text-base font-smibold">
               Update cart
             </button>
@@ -85,4 +79,4 @@ function CartPage({ cart, updateCart }) {
   );
 }
 
-export default CartPage;
+export default withCart(CartPage);

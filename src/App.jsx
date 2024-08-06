@@ -14,86 +14,63 @@ import AuthRoute from "./AuthRoute";
 import Alert from "./Alert";
 import UserProvider from "./UserProvider";
 import AlertProvider from "./AlertProvider";
+import CartProvider from "./CartProvider";
 
 function App() {
-  let newCart = JSON.parse(localStorage.getItem("productCart") || "{}");
-  const [cart, setCart] = useState(newCart);
-
-  function handleAddToCart(productId, cartCount) {
-    const oldCount = cart[productId] || 0;
-    const newCart = { ...cart, [productId]: cartCount + oldCount };
-    updateCart(newCart);
-  }
-
-  function updateCart(newCart) {
-    setCart(newCart);
-    let cartString = JSON.stringify(cart);
-    localStorage.setItem("productCart", cartString);
-  }
-
-  const totalCount = Object.keys(cart).reduce((previous, current) => {
-    return previous + cart[current];
-  }, 0);
-
   return (
     <>
       <div className=" min-h-screen min-w-screen bg-gray-50 ">
         <UserProvider>
-          <AlertProvider>
-            <Alert />
-            <Nav count={totalCount} />
+          <CartProvider>
+            <AlertProvider>
+              <Alert />
+              <Nav />
 
-            <Routes>
-              <Route
-                path="/login"
-                element={
-                  <AuthRoute>
-                    {" "}
-                    <Login />{" "}
-                  </AuthRoute>
-                }
-              ></Route>
-              <Route
-                index
-                element={
-                  <UserRoute>
-                    <ProductList />
-                  </UserRoute>
-                }
-              ></Route>
-              <Route
-                path="/productDetail/:id"
-                element={
-                  <UserRoute>
-                    <ProductDetail onAddToCart={handleAddToCart} />
-                  </UserRoute>
-                }
-              ></Route>
-              <Route
-                path="/cartpage"
-                element={
-                  <UserRoute>
-                    <CartPage cart={cart} updateCart={updateCart} />
-                  </UserRoute>
-                }
-              ></Route>
-              <Route path="*" element={<NotFound />}></Route>
-              <Route
-                path="/signUp"
-                element={
-                  <AuthRoute>
-                    <SignUp />
-                  </AuthRoute>
-                }
-              ></Route>
-              <Route
-                path="/forgotPassword"
-                element={<ForgotPassword />}
-              ></Route>
-            </Routes>
+              <Routes>
+                <Route
+                  path="/login"
+                  element={
+                    <AuthRoute>
+                      {" "}
+                      <Login />{" "}
+                    </AuthRoute>
+                  }
+                ></Route>
+                <Route index element={<ProductList />}></Route>
+                <Route
+                  path="/productDetail/:id"
+                  element={
+                    <UserRoute>
+                      <ProductDetail />
+                    </UserRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/cartpage"
+                  element={
+                    <UserRoute>
+                      <CartPage />
+                    </UserRoute>
+                  }
+                ></Route>
+                <Route path="*" element={<NotFound />}></Route>
+                <Route
+                  path="/signUp"
+                  element={
+                    <AuthRoute>
+                      <SignUp />
+                    </AuthRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/forgotPassword"
+                  element={<ForgotPassword />}
+                ></Route>
+              </Routes>
 
-            <Footer />
-          </AlertProvider>
+              <Footer />
+            </AlertProvider>
+          </CartProvider>
         </UserProvider>
       </div>
     </>

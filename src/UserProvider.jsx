@@ -34,7 +34,7 @@ function UserProvider({ children }) {
 
 
     return <>
-      <loginContext.Provider value= {{user , setUser}}>
+      <loginContext.Provider value= {{ islogedin : !!token , user , setUser}}>
       {children}
     </loginContext.Provider >
     </>

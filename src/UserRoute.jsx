@@ -7,7 +7,7 @@ import { withUser } from "./withProvider";
 function UserRoute({children , user}) {
 
     if (!user) {
-        return <Navigate to={"/login"} />
+        return <Navigate to={"/"} />
     }
 
     return children
