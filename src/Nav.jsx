@@ -1,13 +1,9 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
-import { withUser } from "./withProvider";
+import { withCart, withUser } from "./withProvider";
 
-
-function Nav({ count , user ,setUser}) {
-
-
-
+function Nav({ totalCount, user, setUser }) {
   function handleLogout() {
     localStorage.removeItem("token");
     setUser(undefined);
@@ -22,17 +18,30 @@ function Nav({ count , user ,setUser}) {
             src="https://gumlet-images.assettype.com/afaqs/2022-08/69acc390-3578-4527-8355-9f443f4749e3/Ekar.jpg?auto=format,compress&fmt=webp&format=webp&w=1200&h=900&dpr=1.0"
             alt="brand logo"
           />
-          { user && <span className="text-sm font-semibold text-orange-500">  {user.full_name} </span>}
+          {user && (
+            <span className="text-sm font-semibold text-orange-500">
+              {" "}
+              {user.full_name}{" "}
+            </span>
+          )}
         </Link>
 
         <div className=" flex gap-8">
-          <button
-            className="text-base text-orange-600 font-bold "
-            onClick={handleLogout}
-          >
-            {" "}
-            Logout{" "}
-          </button>
+          {!user ? (
+            <Link
+              className="text-base text-orange-600 font-bold "
+              to={"/login"}
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              className="text-base text-orange-600 font-bold "
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          )}
 
           <div className="flex">
             <Link to={"/cartpage"}>
@@ -40,8 +49,8 @@ function Nav({ count , user ,setUser}) {
                 <HiOutlineShoppingCart className=" text-sm sm:text-2xl text-orange-700 " />
               </span>
             </Link>
-            <span className="text-2xl font-semibold text-orange-500">
-              {count}
+            <span className=" text-base lg:text-2xl font-semibold text-orange-500">
+              {totalCount}
             </span>
           </div>
         </div>
@@ -50,4 +59,4 @@ function Nav({ count , user ,setUser}) {
   );
 }
 
-export default withUser(memo(Nav));
+export default withUser(withCart(memo(Nav)));

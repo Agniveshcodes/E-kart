@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { CiCircleRemove } from "react-icons/ci";
+import { withCart } from "./withProvider";
 
-function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
+function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart, quantity , map }) {
+  
+  
 
   function internalHandleCahnge(event) {
     handleChange(+event.target.value , product.id)
@@ -14,7 +17,7 @@ function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
   }
 
   function handleRemove(productId) {
-    const newCart = { ...cart };
+    const newCart = map();
     delete newCart[productId];
     cartUpdate(newCart);
   }
@@ -32,7 +35,7 @@ function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
           </button>
           <img
             className="h-5 w-5 lg:h-10 lg:w-10 shadow-md shadow-gray-600"
-            src={product.thumbnail}
+            src="https://images.unsplash.com/photo-1695322353008-fb6647b1cf4a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="productImage"
           />
           <div className=" flex flex-wrap">
@@ -48,12 +51,12 @@ function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
             productid={product.id}
             type="number"
             className="border-2 border-gray-300 rounded-md w-8  lg:w-10 pl-2 text-sm lg:text-base"
-            value={localCart[product.id]}
-            onChange={ internalHandleCahnge}
+            value={quantity}
+            onChange={internalHandleCahnge}
           />
           <span className=" text-sm lg:text-base font-semibold">
             {" "}
-            ${product.price * localCart[product.id]}{" "}
+            ${product.price * quantity}
           </span>
         </div>
       </div>
@@ -61,4 +64,4 @@ function CartProduct({ product, cart, cartUpdate, localCart, setLocalCart }) {
   );
 }
 
-export default CartProduct;
+export default withCart(CartProduct);
